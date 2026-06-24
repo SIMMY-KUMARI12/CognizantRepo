@@ -25,7 +25,7 @@ INSERT INTO Employees (EmployeeID, FirstName, LastName, DepartmentID, Salary, Jo
 (3, 'Priya', 'Verma', 3, 7000.00, '2018-07-30'),
 (4, 'Amit', 'Kumar', 4, 5500.00, '2021-11-05');
 
--- Exercise 1
+-- Exercise 1  -- creating a stored procedure
 
 DELIMITER $$
 
