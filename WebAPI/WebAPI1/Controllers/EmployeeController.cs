@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI1.Models;
-using WebAPI1.Filters;
 
 namespace WebAPI1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [CustomAuthFilter]
+    [Authorize(Roles = "POC")]
 
     public class EmployeeController : ControllerBase
     {
@@ -47,7 +46,6 @@ namespace WebAPI1.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         [ProducesResponseType(typeof(List<Employee>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<List<Employee>> Get()
@@ -63,11 +61,23 @@ namespace WebAPI1.Controllers
             return Ok(employee);
         }
 
+
         [HttpPut]
-        public IActionResult Put([FromBody] Employee employee)
+        [ProducesResponseType(typeof(Employee), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<Employee> Put([FromBody] Employee employee)
         {
+            if (employee.Id <= 0)
+            {
+                return BadRequest("Invalid employee id");
+            }
+
             var existing = employees.FirstOrDefault(e => e.Id == employee.Id);
-            if (existing == null) return NotFound();
+
+            if (existing == null)
+            {
+                return BadRequest("Invalid employee id");
+            }
 
             existing.Name = employee.Name;
             existing.Salary = employee.Salary;
@@ -78,5 +88,6 @@ namespace WebAPI1.Controllers
 
             return Ok(existing);
         }
+
     }
 }
