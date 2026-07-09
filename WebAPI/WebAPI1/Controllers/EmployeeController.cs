@@ -3,7 +3,7 @@ using WebAPI1.Models;
 
 namespace WebAPI1.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Emp")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {
