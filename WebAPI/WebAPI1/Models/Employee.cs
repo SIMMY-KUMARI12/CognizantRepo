@@ -3,15 +3,11 @@ namespace WebAPI1.Models
     public class Employee
     {
         public int Id { get; set; }
-
         public string Name { get; set; } = string.Empty;
-
-        public string Department { get; set; } = string.Empty;
-
-        public double Salary { get; set; }
-
-        public string Email { get; set; } = string.Empty;
-
-        public int Age { get; set; }
+        public int Salary { get; set; }
+        public bool Permanent { get; set; }
+        public Department Department { get; set; } = new Department();
+        public List<Skill> Skills { get; set; } = new List<Skill>();
+        public DateTime DateOfBirth { get; set; }
     }
 }
