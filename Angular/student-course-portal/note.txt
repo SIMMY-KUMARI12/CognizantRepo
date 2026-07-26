@@ -1,0 +1,35 @@
+Angular Hands-On 1
+
+1. angular.json
+Contains the Angular workspace configuration, including build, serve, and project settings.
+
+2. tsconfig.json
+Stores the main TypeScript compiler configuration.
+
+3. tsconfig.app.json
+Contains TypeScript compiler settings specific to the Angular application.
+
+4. package.json
+Contains project metadata, npm scripts, and project dependencies.
+
+5. src/main.ts
+The entry point of the Angular application that bootstraps the application.
+
+6. src/app/app.config.ts
+Configures the standalone Angular application and registers providers.
+
+7. src/app/app.component.ts
+Defines the root component of the Angular application.
+
+8. src/index.html
+The main HTML page that hosts the Angular application.
+
+Compiled Application File:
+main-OZ2T5IEA.js
+
+Budgets Configuration:
+maximumWarning:
+Displays a warning when the application bundle size exceeds the specified limit.
+
+maximumError:
+Fails the production build when the application bundle size exceeds the specified limit.
