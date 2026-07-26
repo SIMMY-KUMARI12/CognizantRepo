@@ -1,0 +1,40 @@
+.enrollment-form {
+  max-width: 500px;
+  margin: 30px auto;
+}
+
+.enrollment-form div {
+  margin-bottom: 15px;
+}
+
+.enrollment-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.enrollment-form input,
+.enrollment-form select {
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.enrollment-form input.ng-invalid.ng-touched,
+.enrollment-form select.ng-invalid.ng-touched {
+  border: 2px solid red;
+}
+
+.enrollment-form input.ng-valid.ng-touched,
+.enrollment-form select.ng-valid.ng-touched {
+  border: 2px solid green;
+}
+
+.enrollment-form span {
+  display: block;
+  margin-top: 5px;
+}
+
+.enrollment-form button {
+  margin-right: 10px;
+  padding: 8px 16px;
+}
