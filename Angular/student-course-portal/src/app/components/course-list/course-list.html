@@ -1,0 +1,7 @@
+<div class="course-list">
+  <h2>Available Courses</h2>
+
+  @for (course of courses; track course.title) {
+    <app-course-card [course]="course"></app-course-card>
+  }
+</div>
