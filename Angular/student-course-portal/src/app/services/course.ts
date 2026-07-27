@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Course } from '../models/course.model';
-
-
+import { map } from 'rxjs/operators';
+import { catchError, retry, tap, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,9 +13,22 @@ export class CourseService {
 
   constructor(private http: HttpClient) {}
 
-  getCourses(): Observable<Course[]> {
-    return this.http.get<Course[]>(this.apiUrl);
-  }
+ getCourses(): Observable<Course[]> {
+  return this.http.get<Course[]>('http://localhost:3000/courses').pipe(
+    map(courses => courses.filter(c => c.credits > 0)),
+
+    tap(courses => console.log('Courses loaded:', courses.length)),
+
+    retry(2),
+
+    catchError(err => {
+      console.error(err);
+      return throwError(() =>
+        new Error('Failed to load courses. Please try again.')
+      );
+    })
+  );
+}
 
   getCourseById(id: number): Observable<Course> {
     return this.http.get<Course>(`${this.apiUrl}/${id}`);

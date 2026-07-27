@@ -23,17 +23,19 @@ export class CourseListComponent implements OnInit {
   constructor(private courseService: CourseService) {}
 
   ngOnInit(): void {
-    this.courseService.getCourses().subscribe({
-      next: (courses) => {
-        this.courses = courses;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.error = err.message || 'Failed to load courses';
-        this.isLoading = false;
-      }
-    });
-  }
+  this.courseService.getCourses().subscribe({
+    next: courses => {
+      this.courses = courses;
+    },
+    error: err => {
+      this.error = err.message;
+      this.isLoading = false;
+    },
+    complete: () => {
+      this.isLoading = false;
+    }
+  });
+}
 
   trackByCourseId(index: number, course: Course): number {
     return course.id;
