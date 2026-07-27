@@ -28,7 +28,14 @@ export class HomeComponent implements OnInit {
 ) {}
 
   ngOnInit(): void {
-    this.courseCount = this.courseService.getCourses().length;
+this.courseService.getCourses().subscribe({
+  next: (courses) => {
+    this.courseCount = courses.length;
+  },
+  error: (err) => {
+    console.error('Failed to load courses:', err);
+  }
+});
     console.log('HomeComponent initialised — courses loaded');
   }
 

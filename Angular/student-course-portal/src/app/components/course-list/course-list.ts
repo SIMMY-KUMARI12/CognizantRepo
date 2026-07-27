@@ -17,10 +17,25 @@ import { CourseCardComponent } from '../course-card/course-card';
 export class CourseListComponent implements OnInit {
 
   courses: Course[] = [];
+  isLoading = true;
+  error = '';
 
   constructor(private courseService: CourseService) {}
 
   ngOnInit(): void {
-    this.courses = this.courseService.getCourses();
+    this.courseService.getCourses().subscribe({
+      next: (courses) => {
+        this.courses = courses;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.error = err.message || 'Failed to load courses';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  trackByCourseId(index: number, course: Course): number {
+    return course.id;
   }
 }
