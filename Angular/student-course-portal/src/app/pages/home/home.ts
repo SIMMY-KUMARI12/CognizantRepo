@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CourseService } from '../../services/course';
 import { CourseListComponent } from '../../components/course-list/course-list';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -22,7 +22,10 @@ export class HomeComponent implements OnInit {
 
   courseCount = 0;
 
-  constructor(private courseService: CourseService) {}
+  constructor(
+  private courseService: CourseService,
+  private router: Router
+) {}
 
   ngOnInit(): void {
     this.courseCount = this.courseService.getCourses().length;
@@ -32,4 +35,13 @@ export class HomeComponent implements OnInit {
   onEnrollClick(): void {
     this.message = 'Enrollment process started!';
   }
+  searchCourses(): void {
+  if (this.searchTerm.trim()) {
+    this.router.navigate(['courses'], {
+      queryParams: {
+        search: this.searchTerm
+      }
+    });
+  }
+}
 }

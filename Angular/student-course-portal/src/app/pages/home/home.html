@@ -13,12 +13,14 @@
   <div class="search-section">
     <label for="search">Search Course:</label>
 
+   
     <input
-      id="search"
-      type="text"
-      [(ngModel)]="searchTerm"
-      placeholder="Enter course name"
-    >
+  id="search"
+  type="text"
+  [(ngModel)]="searchTerm"
+  placeholder="Enter course name"
+  (keyup.enter)="searchCourses()"
+>
 
     <p>Searching for: {{ searchTerm }}</p>
   </div>
