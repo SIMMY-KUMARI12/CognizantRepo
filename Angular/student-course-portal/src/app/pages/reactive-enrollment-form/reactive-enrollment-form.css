@@ -1,0 +1,29 @@
+.enrollment-form {
+  max-width: 500px;
+  margin: 30px auto;
+}
+
+.enrollment-form div {
+  margin-bottom: 15px;
+}
+
+.enrollment-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.enrollment-form input,
+.enrollment-form select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.enrollment-form input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+}
+
+.enrollment-form button {
+  padding: 8px 16px;
+}

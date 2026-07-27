@@ -6,30 +6,33 @@ import { Highlight } from '../../directives/highlight';
 
 @Component({
   selector: 'app-course-list',
-imports: [CommonModule, CourseCardComponent, Highlight],
+  imports: [CommonModule, CourseCardComponent, Highlight],
   templateUrl: './course-list.html',
   styleUrl: './course-list.css'
 })
 export class CourseListComponent implements OnInit {
+
   courses: any[] = [];
-
-  // Initially true so the loading message is displayed
   isLoading = true;
+  error: string | null = null;
 
-  constructor(private courseService: CourseService) {
-    this.courses = this.courseService.getCourses();
+  constructor(private courseService: CourseService) {}
+
+  ngOnInit(): void {
+    this.courseService.getCourses().subscribe({
+      next: (courses) => {
+        this.courses = courses;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.error = 'Failed to load courses.';
+        this.isLoading = false;
+        console.error(error);
+      }
+    });
   }
 
-  ngOnInit() {
-    // Simulates loading courses from a server.
-    // After 1.5 seconds, the loading message disappears.
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 1500);
-  }
   trackByCourseId(index: number, course: any): any {
-  // trackBy helps Angular identify courses by ID,
-  // so only changed items are re-rendered instead of the entire list.
-  return course.id;
-}
+    return course.id;
+  }
 }
