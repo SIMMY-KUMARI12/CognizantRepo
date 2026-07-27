@@ -1,86 +1,45 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  HttpTestingController,
-  provideHttpClientTesting
-} from '@angular/common/http/testing';
-import { provideHttpClient } from '@angular/common/http';
-
 import { CourseService } from './course';
-
+import { CommonModule } from '@angular/common';
 describe('CourseService', () => {
-
   let service: CourseService;
-  let httpMock: HttpTestingController;
-
-  const mockCourses = [
-    {
-      id: 1,
-      title: 'Angular Fundamentals',
-      instructor: 'John Smith',
-      duration: '6 weeks',
-      gradeStatus: 'passed',
-      enrolled: true,
-      credits: 3
-    },
-    {
-      id: 2,
-      title: 'Java Programming',
-      instructor: 'Sarah Johnson',
-      duration: '8 weeks',
-      gradeStatus: 'failed',
-      enrolled: false,
-      credits: 4
-    }
-  ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        CourseService,
-        provideHttpClient(),
-        provideHttpClientTesting()
-      ]
+      providers: [CourseService]
     });
 
     service = TestBed.inject(CourseService);
-    httpMock = TestBed.inject(HttpTestingController);
   });
 
-  afterEach(() => {
-    httpMock.verify();
+  it('should be created', () => {
+    expect(service).toBeTruthy();
   });
 
-  it('should fetch courses', () => {
-    service.getCourses().subscribe(courses => {
-      expect(courses.length).toBe(2);
-      expect(courses).toEqual(mockCourses);
+  it('should return courses', () => {
+    const courses = service.getCourses();
+
+    expect(courses.length).toBe(5);
+  });
+
+  it('should find a course by id', () => {
+    const course = service.getCourseById(1);
+
+    expect(course).toBeTruthy();
+    expect(course?.name).toBe('Angular Fundamentals');
+  });
+
+  it('should add a course', () => {
+    const initialLength = service.getCourses().length;
+
+    service.addCourse({
+      id: 6,
+      name: 'Python Programming',
+      code: 'PY101',
+      credits: 3,
+      gradeStatus: 'pending'
     });
 
-    const request = httpMock.expectOne(
-      'http://localhost:3000/courses'
-    );
-
-    expect(request.request.method).toBe('GET');
-
-    request.flush(mockCourses);
+    expect(service.getCourses().length).toBe(initialLength + 1);
   });
-
-  it('should handle server error', () => {
-    service.getCourses().subscribe({
-      next: () => fail('Expected an error'),
-      error: error => {
-        expect(error.status).toBe(500);
-      }
-    });
-
-    const request = httpMock.expectOne(
-      'http://localhost:3000/courses'
-    );
-
-    request.flush('Server Error', {
-      status: 500,
-      statusText: 'Internal Server Error'
-    });
-  });
-
 });

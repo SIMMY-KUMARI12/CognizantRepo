@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-enrollment-form',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule
+  ],
   templateUrl: './enrollment-form.html',
   styleUrl: './enrollment-form.css'
 })

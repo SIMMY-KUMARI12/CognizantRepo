@@ -1,38 +1,26 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CourseCardComponent } from '../course-card/course-card';
+import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../../services/course';
-import { Highlight } from '../../directives/highlight';
+import { Course } from '../../models/course.model';
+import { CourseCardComponent } from '../course-card/course-card';
 
 @Component({
   selector: 'app-course-list',
-  imports: [CommonModule, CourseCardComponent, Highlight],
+  standalone: true,
+  imports: [
+    CommonModule,
+    CourseCardComponent
+  ],
   templateUrl: './course-list.html',
   styleUrl: './course-list.css'
 })
 export class CourseListComponent implements OnInit {
 
-  courses: any[] = [];
-  isLoading = true;
-  error: string | null = null;
+  courses: Course[] = [];
 
   constructor(private courseService: CourseService) {}
 
   ngOnInit(): void {
-    this.courseService.getCourses().subscribe({
-      next: (courses) => {
-        this.courses = courses;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        this.error = 'Failed to load courses.';
-        this.isLoading = false;
-        console.error(error);
-      }
-    });
-  }
-
-  trackByCourseId(index: number, course: any): any {
-    return course.id;
+    this.courses = this.courseService.getCourses();
   }
 }
