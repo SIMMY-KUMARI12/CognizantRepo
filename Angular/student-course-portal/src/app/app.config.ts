@@ -10,25 +10,17 @@ import { provideState } from '@ngrx/store';
 
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { routes } from './app.routes';
-
+import { enrollmentReducer } from './store/enrollment/enrollment.reducer';
 import { courseReducer } from './store/course/course.reducer';
-
+import { CourseEffects } from './store/course/course.effects';
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+     provideRouter(routes),
 
     provideHttpClient(
       withInterceptors([authInterceptor])
     ),
 
-    provideStore(),
-
-    provideEffects(),
-
-    provideStoreDevtools({
-      maxAge: 25
-    }),
-
-    provideState('course', courseReducer)
+    provideEffects(CourseEffects)
   ]
 };

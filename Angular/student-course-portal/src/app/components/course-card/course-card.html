@@ -1,15 +1,14 @@
-<div
-  class="course-card"
-    appHighlight="lightblue"
+<div class="course-card" [ngClass]="cardClasses" (click)="openCourse()">
 
-[ngClass]="cardClasses"
-  [ngStyle]="{
-    'border-left-color':
-      course.gradeStatus === 'passed' ? 'green' :
-      course.gradeStatus === 'failed' ? 'red' :
-      'grey'
-  }"
->
+  <h3>{{ course.name }}</h3>
+
+  <p>Code: {{ course.code }}</p>
+
+  <p>Credits: {{ course.credits }}</p>
+
+  <p>Status: {{ course.gradeStatus | uppercase }}</p>
+
+</div>
   <h3>{{ course.title }}</h3>
   <p>Instructor: {{ course.instructor }}</p>
   <p>Duration: {{ course.duration }}</p>
@@ -37,4 +36,15 @@
     <p>Grade Status: {{ course.gradeStatus }}</p>
   </div>
 
+
+<div *ngIf="isExpanded" class="course-details">
+  <p>Credits: {{ course.credits }}</p>
+  <p>Enrolled: {{ course.enrolled ? 'Yes' : 'No' }}</p>
+  <p>Grade Status: {{ course.gradeStatus }}</p>
 </div>
+
+<!-- NgRx Enrollment -->
+<button
+  (click)="enroll(); $event.stopPropagation()">
+  {{ (enrolledIds$ | async)?.includes(course.id) ? 'Unenroll' : 'Enroll' }}
+</button>
