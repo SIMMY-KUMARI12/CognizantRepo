@@ -1,8 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { CourseService } from '../../services/course';
+import { Store } from '@ngrx/store';
+
 import { Course } from '../../models/course.model';
 import { CourseCardComponent } from '../course-card/course-card';
+
+import { loadCourses } from '../../store/course/course.actions';
+import { selectAllCourses } from '../../store/course/course.selectors';
 
 @Component({
   selector: 'app-course-list',
@@ -16,26 +20,13 @@ import { CourseCardComponent } from '../course-card/course-card';
 })
 export class CourseListComponent implements OnInit {
 
-  courses: Course[] = [];
-  isLoading = true;
-  error = '';
+  courses$ = this.store.select(selectAllCourses);
 
-  constructor(private courseService: CourseService) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-  this.courseService.getCourses().subscribe({
-    next: courses => {
-      this.courses = courses;
-    },
-    error: err => {
-      this.error = err.message;
-      this.isLoading = false;
-    },
-    complete: () => {
-      this.isLoading = false;
-    }
-  });
-}
+    this.store.dispatch(loadCourses());
+  }
 
   trackByCourseId(index: number, course: Course): number {
     return course.id;
